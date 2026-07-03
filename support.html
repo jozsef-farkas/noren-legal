@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — NOREN</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #F5F2EB;
+    --ink: #1A1A1A;
+    --mid: #6E6E6E;
+    --light: #C8C4BA;
+    --accent: #2563EB;
+    --card: #EFECE4;
+    --max: 680px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+    padding: 0 24px 80px;
+  }
+
+  /* NAV */
+  nav {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 32px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.active { color: var(--ink); font-weight: 500; }
+
+  /* HEADER */
+  header {
+    max-width: var(--max);
+    margin: 64px auto 0;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .doc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 6vw, 48px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .meta {
+    font-size: 13px;
+    color: var(--mid);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* CONTENT */
+  main {
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  section {
+    padding: 48px 0 0;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--card);
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin: 28px 0 10px;
+  }
+
+  p {
+    font-size: 15px;
+    color: #2A2A2A;
+    margin-bottom: 14px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 8px 0 16px;
+  }
+
+  ul li {
+    font-size: 15px;
+    color: #2A2A2A;
+    padding: 6px 0 6px 20px;
+    position: relative;
+    border-bottom: 1px solid var(--card);
+  }
+
+  ul li:last-child { border-bottom: none; }
+
+  ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--light);
+    font-size: 13px;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* HIGHLIGHT CARD */
+  .highlight {
+    background: var(--card);
+    border-left: 3px solid var(--ink);
+    border-radius: 2px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 14px;
+    color: var(--mid);
+  }
+
+  /* FOOTER */
+  footer {
+    max-width: var(--max);
+    margin: 64px auto 0;
+    padding-top: 32px;
+    border-top: 1px solid var(--light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  footer p {
+    font-size: 12px;
+    color: var(--light);
+    margin: 0;
+  }
+
+  .footer-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--light);
+  }
+
+  @media (max-width: 480px) {
+    .meta { flex-direction: column; gap: 8px; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">NOREN</a>
+  <div class="nav-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="support.html" class="active">Support</a>
+  </div>
+</nav>
+
+<header>
+  <p class="doc-label">Support</p>
+  <h1>NOREN Support</h1>
+  <div class="meta">
+    <span>Developer: Farkas József</span>
+    <span>Hungary · EU</span>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <h2>About NOREN</h2>
+    <p>NOREN is a daily logic puzzle app. Every day brings a fresh, hand-tuned puzzle in each of four classic games — solve them, keep your streak alive, and compare your times with friends and players worldwide.</p>
+    <p>This page covers the basics of each puzzle and the most common questions. If you can't find what you need, contact details are at the bottom.</p>
+  </section>
+
+  <section>
+    <h2>The Puzzles</h2>
+
+    <h3>Slitherlink</h3>
+    <p>Draw a single continuous loop using the number clues — each number shows how many of its edges are part of the loop.</p>
+
+    <h3>Queens</h3>
+    <p>Place one queen per row, column, and colored region so that no two queens touch, not even diagonally.</p>
+
+    <h3>Hashi</h3>
+    <p>Connect island numbers with horizontal or vertical bridges so each island has exactly as many bridge-ends as its number shows, and every island is reachable from every other.</p>
+
+    <h3>Masyu</h3>
+    <p>Draw a single loop through the grid that passes straight through black pearls (turning immediately before or after) and turns at white pearls (going straight through the cells before and after).</p>
+  </section>
+
+  <section>
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>How do I delete my account?</h3>
+    <p>Open the Profile tab, scroll to the bottom, and tap <strong>Delete Account</strong>. This permanently removes your solves, streaks, and friend connections.</p>
+
+    <h3>How do I manage or cancel my subscription?</h3>
+    <p>Go to iOS Settings → [your name] → Subscriptions → NOREN. Apple manages all billing directly; NOREN does not have access to your payment details.</p>
+
+    <h3>Why is my Friends leaderboard empty?</h3>
+    <p>You need to add friends first, from the Ranks tab.</p>
+
+    <h3>I found a bug or have a suggestion</h3>
+    <p>We'd love to hear from you — see the contact section below.</p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>Farkas József<br>
+    Email: <a href="mailto:jozsef.farkas@gmail.com">jozsef.farkas@gmail.com</a></p>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-logo">NOREN</span>
+  <p>© 2026 Farkas József · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+</footer>
+
+</body>
+</html>
