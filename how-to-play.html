@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="How to play the four logic puzzles in Noren — Slitherlink, Queens, Hashi and Masyu — plus a tour of the app.">
+<title>How to Play — NOREN</title>
+<style>
+  /* ─────────────────────────────────────────────────────────────────────────
+     Self-hosted Geist (SIL OFL 1.1). Latin subsets of the same .ttf files the
+     app bundles. No external requests are made by this page — no CDN, no
+     analytics, no cookies.
+     ───────────────────────────────────────────────────────────────────────── */
+  @font-face { font-family: 'Geist'; src: url('assets/fonts/Geist-Regular.woff2')  format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('assets/fonts/Geist-Medium.woff2')   format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('assets/fonts/Geist-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('assets/fonts/Geist-Bold.woff2')     format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'GeistMono'; src: url('assets/fonts/GeistMono-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+
+  /* ── Tokens: lib/theme/colors.dart (accent hue 220), spacing.dart ───────── */
+  :root {
+    --bg:        #F5F4EF;
+    --bg-elev:   #FFFFFF;
+    --bg-tint:   #EDEBE5;
+    --bg-tint2:  #E4E1D8;
+    --ink:       #131311;
+    --ink2:      #5B5A53;
+    --ink3:      #9F9C92;
+    --ink4:      #C9C6BC;
+    --line:      rgba(19, 19, 17, 0.059);
+    --line2:     rgba(19, 19, 17, 0.098);
+    --control-border: #5B5A53;   /* AppColors.controlBorder — alias of ink2 */
+    --accent:      #758BAA;
+    --accent-ink:  #3B4B63;      /* text-safe accent: 8.0:1 on bg */
+    --accent-soft: rgba(117, 139, 170, 0.12);
+    --emerald:     #8E9B7D;
+    --emerald-ink: #505A42;
+    --emerald-soft: rgba(142, 155, 125, 0.12);
+    --rose:        #A8886E;
+    --gold:        #AB9B6D;
+    --violet:      #8387C0;
+
+    /* S — spacing (pt → px) */
+    --s-xs: 4px;  --s-sm: 8px;  --s-md: 12px; --s-lg: 16px;
+    --s-xl: 20px; --s-xl2: 24px; --s-xl3: 32px; --s-xl4: 40px;
+    /* S — border radii */
+    --r-sm: 8px;  --r-md: 12px; --r-lg: 16px;
+    --r-xl: 20px; --r-xl2: 24px; --r-xl3: 30px;
+
+    /* AppText — sizes in rem so browser text scaling still works */
+    --fs-display:  1.875rem;   /* 30 / w700 / -1.2  */
+    --fs-headline: 1.625rem;   /* 26 / w700 / -0.6  */
+    --fs-title:    1.0625rem;  /* 17 / w600 / -0.17 */
+    --fs-body:     0.875rem;   /* 14 / w500 / 1.4   */
+    --fs-caption:  0.78125rem; /* 12.5 / w500       */
+    --fs-mono:     0.8125rem;  /* 13 / w500         */
+    --fs-label:    0.65625rem; /* 10.5 / w700 / 1.7 */
+    --fs-micro:    0.625rem;   /* 10 / w700 / 0.4   */
+
+    --measure: 720px;
+    /* The single horizontal gutter for every content block on the page —
+       masthead, table of contents, sections and footer alike. Nothing else
+       may set its own inline padding at page level. */
+    --pad-x: var(--s-xl);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:        #0B0B0D;
+      --bg-elev:   #16161A;
+      --bg-tint:   #111114;
+      --bg-tint2:  #1C1C20;
+      --ink:       #F4F2EC;
+      --ink2:      #9D9B91;
+      --ink3:      #5E5D55;
+      --ink4:      #2F2E2A;
+      --line:      rgba(255, 255, 255, 0.059);
+      --line2:     rgba(255, 255, 255, 0.098);
+      --control-border: #9D9B91;
+      --accent:      #96B0D6;
+      --accent-ink:  #B5D0F7;     /* 12.5:1 on bg */
+      --accent-soft: rgba(150, 176, 214, 0.16);
+      --emerald:     #9FAE8B;
+      --emerald-ink: #BFCDAB;
+      --emerald-soft: rgba(159, 174, 139, 0.16);
+      --rose:        #BC9E84;
+      --gold:        #C4B484;
+      --violet:      #A1A6E1;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Sets ONLY the inline gutter, via a logical longhand — so a block's own
+     padding-block rule can never clobber it (and vice versa), which is what
+     silently stripped the gutter off .masthead and the vertical padding off
+     footer when both used the `padding` shorthand. */
+  .wrap { max-width: var(--measure); margin: 0 auto; padding-inline: var(--pad-x); }
+
+  a { color: var(--accent-ink); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  :focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 3px;
+    border-radius: var(--r-sm);
+  }
+
+  .skip {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--bg-elev); color: var(--ink);
+    padding: var(--s-md) var(--s-lg); border-radius: var(--r-md);
+    font-weight: 600; z-index: 20;
+  }
+  .skip:focus { left: var(--pad-x); top: var(--s-lg); }
+
+  /* ── Header ─────────────────────────────────────────────────────────────── */
+  .masthead { padding-block: var(--s-xl4) var(--s-xl2); }
+
+  .brand { display: flex; align-items: center; gap: var(--s-md); margin-bottom: var(--s-xl2); }
+  .brand svg { display: block; }
+  .brand-name {
+    font-size: var(--fs-label); font-weight: 700; letter-spacing: 1.7px;
+    text-transform: uppercase; color: var(--ink2);
+  }
+
+  h1 {
+    font-size: var(--fs-display); font-weight: 700; letter-spacing: -1.2px;
+    line-height: 1.1; margin-bottom: var(--s-md);
+  }
+  .lede { color: var(--ink2); max-width: 46ch; }
+
+  /* ── Sticky table of contents ───────────────────────────────────────────── */
+  .toc {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line2);
+  }
+  @supports (backdrop-filter: blur(12px)) {
+    .toc { background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); }
+  }
+  /* Wraps onto as many rows as it needs. Deliberately NOT a horizontal
+     scroller: that hides links from sight, from Tab order discovery and from
+     screen-reader users. A single `gap` keeps the row and column gutters equal. */
+  .toc-inner {
+    display: flex; flex-wrap: wrap; gap: var(--s-sm);
+    padding-block: var(--s-md);
+    padding-inline: var(--pad-x);
+    max-width: var(--measure); margin: 0 auto;
+  }
+  .toc a {
+    flex: 0 1 auto;
+    padding: var(--s-sm) var(--s-md);
+    border: 1px solid var(--line2);
+    border-radius: var(--r-xl3);
+    background: var(--bg-elev);
+    color: var(--ink2);
+    font-size: var(--fs-caption); font-weight: 600;
+    white-space: nowrap;
+  }
+  .toc a:hover { color: var(--ink); border-color: var(--control-border); text-decoration: none; }
+
+  /* ── Sections ───────────────────────────────────────────────────────────── */
+  section { scroll-margin-top: 64px; padding-block: var(--s-xl4) var(--s-sm); }
+  section + section { border-top: 1px solid var(--line2); }
+
+  .eyebrow {
+    font-size: var(--fs-label); font-weight: 700; letter-spacing: 1.7px;
+    text-transform: uppercase; color: var(--ink2); margin-bottom: var(--s-sm);
+  }
+  h2 {
+    font-size: var(--fs-headline); font-weight: 700; letter-spacing: -0.6px;
+    line-height: 1.15; margin-bottom: var(--s-md);
+  }
+  h3 {
+    font-size: var(--fs-title); font-weight: 600; letter-spacing: -0.17px;
+    margin: var(--s-xl3) 0 var(--s-md);
+  }
+  p { color: var(--ink2); }
+  p + p { margin-top: var(--s-md); }
+  .tagline { color: var(--ink2); max-width: 54ch; }
+
+  /* ── "At a glance" card ─────────────────────────────────────────────────── */
+  .glance {
+    background: var(--bg-elev);
+    border: 1px solid var(--line2);
+    border-radius: var(--r-lg);
+    padding: var(--s-xl);
+    margin-top: var(--s-xl);
+    display: grid; gap: var(--s-lg);
+  }
+  @media (min-width: 560px) { .glance { grid-template-columns: 1fr 1fr; gap: var(--s-lg) var(--s-xl2); } }
+  .glance dt {
+    font-size: var(--fs-label); font-weight: 700; letter-spacing: 1.7px;
+    text-transform: uppercase; color: var(--ink2); margin-bottom: var(--s-xs);
+  }
+  .glance dd { color: var(--ink); }
+  .glance .mono { font-family: 'GeistMono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--fs-mono); font-variant-numeric: tabular-nums; }
+
+  /* ── Lists ──────────────────────────────────────────────────────────────── */
+  ol.rules, ul.tips { list-style: none; display: grid; gap: var(--s-md); }
+  ol.rules { counter-reset: rule; }
+  ol.rules li, ul.tips li {
+    position: relative;
+    padding-left: 36px;
+    color: var(--ink2);
+    min-height: 24px;
+  }
+  ol.rules li {
+    counter-increment: rule;
+  }
+  ol.rules li::before {
+    content: counter(rule);
+    position: absolute; left: 0; top: 0;
+    font-family: 'GeistMono', ui-monospace, monospace;
+    font-size: var(--fs-mono); font-variant-numeric: tabular-nums;
+    color: var(--ink2);
+    background: var(--bg-tint);
+    border-radius: var(--r-sm);
+    width: 24px; height: 24px;
+    display: grid; place-items: center;
+  }
+  ul.tips li::before {
+    content: "";
+    position: absolute; left: 8px; top: 6px;
+    width: 8px; height: 8px;
+    border-radius: 2px; background: var(--emerald);
+  }
+  .rules li strong, .tips li strong { color: var(--ink); font-weight: 700; }
+
+  /* ── Screenshot gallery ─────────────────────────────────────────────────── */
+  .shots {
+    display: grid; gap: var(--s-xl);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin-top: var(--s-lg);
+  }
+  /* No max-width and no auto margins: the figure fills its grid column, so its
+     shot and its caption both sit exactly on --pad-x like every other block.
+     The column itself is what limits the image (~213px in the 3-up desktop
+     layout), so a cap here would only ever bite in the single-column case —
+     i.e. precisely where it would push the figure off the shared gutter. */
+  .shots figure { margin: 0; }
+  .shots img {
+    display: block; width: 100%; height: auto;
+    margin: 0 0 var(--s-md);
+    border: 1px solid var(--line2);
+    border-radius: var(--r-lg);
+    background: var(--bg-tint);
+  }
+  figcaption { font-size: var(--fs-caption); color: var(--ink2); }
+  figcaption b { color: var(--ink); font-weight: 700; }
+
+  /* ── Control-cycle diagrams (currentColor → theme-agnostic) ─────────────── */
+  .cycle {
+    color: var(--ink);
+    background: var(--bg-elev);
+    border: 1px solid var(--line2);
+    border-radius: var(--r-lg);
+    padding: var(--s-xl);   /* matches .glance — both are cards on the same grid */
+    margin-top: var(--s-lg);
+  }
+  .cycle svg { display: block; width: 100%; height: auto; max-width: 400px; margin: 0 auto; }
+  .cycle text {
+    font-family: 'Geist', system-ui, sans-serif;
+    font-size: 9px; font-weight: 700; letter-spacing: 1.1px;
+    fill: currentColor; fill-opacity: 0.72;
+  }
+  .cycle text.step { font-size: 8px; fill-opacity: 0.72; letter-spacing: 0.9px; }
+  .cycle-note { font-size: var(--fs-caption); color: var(--ink2); text-align: center; margin-top: var(--s-md); }
+
+  /* ── Inside Noren ───────────────────────────────────────────────────────── */
+  .tour { display: grid; gap: var(--s-xl3); margin-top: var(--s-xl); }
+  @media (min-width: 620px) { .tour { grid-template-columns: 1fr 1fr; gap: var(--s-xl3) var(--s-xl2); } }
+  .tour article img {
+    display: block; width: 100%; height: auto;
+    max-width: 260px; margin: 0 0 var(--s-lg);   /* left-aligned: flush with the prose beside it */
+    border: 1px solid var(--line2);
+    border-radius: var(--r-lg);
+    background: var(--bg-tint);
+  }
+  .tour h3 { margin: 0 0 var(--s-sm); }
+
+  /* ── Footer ─────────────────────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--line2);
+    margin-top: var(--s-xl4);
+    padding-block: var(--s-xl2) var(--s-xl4);
+    color: var(--ink2);
+    font-size: var(--fs-caption);
+  }
+  .footer-links { display: flex; flex-wrap: wrap; gap: var(--s-lg); margin-bottom: var(--s-md); }
+  .updated { font-family: 'GeistMono', ui-monospace, monospace; font-size: var(--fs-mono); }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead wrap">
+  <div class="brand">
+    <!-- Noren star badge, redrawn from tokens: 44×44, ink fill, radius 12 (S.rMd),
+         star in bgElev — profile_screen.dart:2215 -->
+    <svg width="44" height="44" viewBox="0 0 44 44" role="img" aria-label="Noren">
+      <rect width="44" height="44" rx="12" fill="var(--ink)"/>
+      <path fill="var(--bg-elev)" d="M22 10.6c.63 0 1.2.37 1.46.95l2.66 5.9 6.42.72c.63.07 1.16.5 1.36 1.1.19.6.02 1.26-.45 1.69l-4.79 4.33 1.3 6.33c.13.62-.11 1.26-.63 1.63a1.6 1.6 0 0 1-1.75.07L22 29.98l-5.58 3.34a1.6 1.6 0 0 1-1.75-.07 1.62 1.62 0 0 1-.63-1.63l1.3-6.33-4.79-4.33a1.62 1.62 0 0 1-.45-1.69c.2-.6.73-1.03 1.36-1.1l6.42-.72 2.66-5.9c.26-.58.83-.95 1.46-.95Z"/>
+    </svg>
+    <span class="brand-name">Noren</span>
+  </div>
+
+  <h1>How to Play</h1>
+  <p class="lede">Four classic logic puzzles, one fresh set every day. Here is what each puzzle asks of you, and exactly what every tap and drag does.</p>
+</header>
+
+<nav class="toc" aria-label="Puzzles and sections">
+  <div class="toc-inner">
+    <a href="#slitherlink">Slitherlink</a>
+    <a href="#queens">Queens</a>
+    <a href="#hashi">Hashi</a>
+    <a href="#masyu">Masyu</a>
+    <a href="#inside-noren">Inside Noren</a>
+  </div>
+</nav>
+
+<main id="main" class="wrap">
+
+  <!-- ══════════════════════════════════════════════════════════ SLITHERLINK -->
+  <section id="slitherlink" aria-labelledby="slitherlink-h">
+    <p class="eyebrow">Puzzle 01</p>
+    <h2 id="slitherlink-h">Slitherlink</h2>
+    <p class="tagline">A single loop, threaded between the dots, obeying every number it passes.</p>
+
+    <dl class="glance">
+      <div>
+        <dt>Goal</dt>
+        <dd>Draw one closed loop along the grid lines so that every numbered cell is bordered by exactly that many segments.</dd>
+      </div>
+      <div>
+        <dt>Board</dt>
+        <dd>A lattice of dots. Clue numbers sit inside the cells, not on the lines.</dd>
+      </div>
+      <div>
+        <dt>Controls</dt>
+        <dd>Tap an edge to cycle it. Drag to paint the same state across a run of edges.</dd>
+      </div>
+      <div>
+        <dt>Typical solve</dt>
+        <dd class="mono">1–3 min on Easy</dd>
+      </div>
+    </dl>
+
+    <h3>Rules</h3>
+    <ol class="rules">
+      <li>Draw a <strong>single closed loop</strong> along the edges between dots.</li>
+      <li>The loop never crosses or branches. Every dot it reaches has exactly two segments — never one, never three.</li>
+      <li>A numbered cell must be bordered by <strong>exactly</strong> that many segments of the loop.</li>
+      <li>Cells without a number are unconstrained — the loop may use any number of their edges.</li>
+      <li>You win when the loop is closed, unbroken, and every number is satisfied.</li>
+    </ol>
+
+    <h3>How to play</h3>
+    <div class="shots">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/slitherlink-1.webp 660w, assets/slitherlink-1@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/slitherlink-1.png" width="660" height="1050" loading="lazy" decoding="async" alt="A fresh Slitherlink puzzle: a grid of grey dots with clue numbers such as 3, 2 and 1 inside the cells, and no lines drawn yet. The header shows the puzzle name, the date, the difficulty Easy and a timer at 0:01.">
+        </picture>
+        <figcaption><b>a.</b> Every puzzle opens empty — just dots and clues. The timer starts on your first move, not when the board loads.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/slitherlink-2.webp 660w, assets/slitherlink-2@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/slitherlink-2.png" width="660" height="1050" loading="lazy" decoding="async" alt="The same Slitherlink puzzle partly solved: a thick black line snakes between the dots, small crosses mark edges ruled out, and satisfied clue numbers have turned green while unsatisfied ones stay grey.">
+        </picture>
+        <figcaption><b>b.</b> Tap the gap between two dots to place a line; tap the same gap again for a cross, and a third time to clear it. Keep your finger down and drag along a row to stamp that same state onto every edge you cross. Numbers turn green the moment they are exactly satisfied.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/slitherlink-3.webp 660w, assets/slitherlink-3@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/slitherlink-3.png" width="660" height="1050" loading="lazy" decoding="async" alt="A Slitherlink board where one clue number, a 2, is shown in red because three lines have been drawn around that cell — more than the clue allows.">
+        </picture>
+        <figcaption><b>c.</b> A clue turns red as soon as it has too many lines around it. Nothing is blocked and nothing is scolded — but red means a deduction went wrong somewhere upstream. Undo walks back one move at a time.</figcaption>
+      </figure>
+    </div>
+
+    <h3>The tap cycle</h3>
+    <div class="cycle">
+      <svg viewBox="0 0 392 176" role="img" aria-label="Diagram: tapping one edge cycles it from empty, to a line, to a cross, and back to empty.">
+        <g fill="none" stroke="currentColor" stroke-opacity="0.16" stroke-width="1">
+          <rect x="8"   y="26" width="96" height="96" rx="12"/>
+          <rect x="148" y="26" width="96" height="96" rx="12"/>
+          <rect x="288" y="26" width="96" height="96" rx="12"/>
+        </g>
+        <text x="56"  y="14" text-anchor="middle">EMPTY</text>
+        <text x="196" y="14" text-anchor="middle">LINE</text>
+        <text x="336" y="14" text-anchor="middle">CROSS</text>
+
+        <g fill="currentColor" fill-opacity="0.45">
+          <circle cx="32"  cy="74" r="3.5"/><circle cx="80"  cy="74" r="3.5"/>
+          <circle cx="172" cy="74" r="3.5"/><circle cx="220" cy="74" r="3.5"/>
+          <circle cx="312" cy="74" r="3.5"/><circle cx="360" cy="74" r="3.5"/>
+        </g>
+        <line x1="172" y1="74" x2="220" y2="74" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        <g stroke="currentColor" stroke-opacity="0.5" stroke-width="3" stroke-linecap="round">
+          <line x1="329" y1="67" x2="343" y2="81"/><line x1="343" y1="67" x2="329" y2="81"/>
+        </g>
+
+        <g stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M112 74 H136"/><path d="M132 70 L137 74 L132 78"/>
+          <path d="M252 74 H276"/><path d="M272 70 L277 74 L272 78"/>
+          <path d="M336 130 C336 152 300 156 196 156 C92 156 56 152 56 132"/>
+          <path d="M51 138 L56 130 L61 138"/>
+        </g>
+        <text class="step" x="124" y="64" text-anchor="middle">TAP</text>
+        <text class="step" x="264" y="64" text-anchor="middle">TAP</text>
+        <text class="step" x="196" y="172" text-anchor="middle">TAP</text>
+      </svg>
+      <p class="cycle-note">Crosses are not decoration — they are how you record what the loop <em>cannot</em> do, and they are what turn the next move from a guess into a deduction.</p>
+    </div>
+
+    <h3>Tips</h3>
+    <ul class="tips">
+      <li><strong>Spend your first pass on 0s and 3s.</strong> Cross off all four edges of every 0 immediately. Then, wherever a 3 sits orthogonally next to a 0, the 3's three edges away from the 0 are all forced lines.</li>
+      <li><strong>Two 3s touching diagonally are always a free pair of moves.</strong> Neither can route through the shared corner twice, so on each 3 the two edges furthest from that corner must be lines.</li>
+      <li><strong>Read the dots, not just the cells.</strong> Any dot that already carries two lines is finished — cross off its remaining edges. That single habit uncovers most of the mid-game forcing moves, and it is why dragging crosses is worth the extra second.</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════ QUEENS -->
+  <section id="queens" aria-labelledby="queens-h">
+    <p class="eyebrow">Puzzle 02</p>
+    <h2 id="queens-h">Queens</h2>
+    <p class="tagline">One crown per row, per column, and per colour region — and no two crowns may touch.</p>
+
+    <dl class="glance">
+      <div>
+        <dt>Goal</dt>
+        <dd>Place exactly one queen in every row, every column and every colour region.</dd>
+      </div>
+      <div>
+        <dt>Board</dt>
+        <dd>A square grid carved into irregular colour regions, one region per row of the board.</dd>
+      </div>
+      <div>
+        <dt>Controls</dt>
+        <dd>Tap a cell to cycle it. Drag to sweep X marks across empty cells.</dd>
+      </div>
+      <div>
+        <dt>Typical solve</dt>
+        <dd class="mono">1–2 min on Easy</dd>
+      </div>
+    </dl>
+
+    <h3>Rules</h3>
+    <ol class="rules">
+      <li>Every <strong>row</strong> holds exactly one queen.</li>
+      <li>Every <strong>column</strong> holds exactly one queen.</li>
+      <li>Every <strong>colour region</strong> holds exactly one queen, whatever shape or size that region is.</li>
+      <li>No two queens may touch — not side by side, and <strong>not diagonally</strong>. This is the rule that catches people out.</li>
+      <li>X marks are yours to place freely; they record eliminations and are never checked.</li>
+    </ol>
+
+    <h3>How to play</h3>
+    <div class="shots">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/queens-1.webp 660w, assets/queens-1@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/queens-1.png" width="660" height="1050" loading="lazy" decoding="async" alt="A fresh Queens puzzle: a six by six grid divided into irregular pastel colour regions in cream, pink, blue, green, cyan and lilac, with no marks placed yet.">
+        </picture>
+        <figcaption><b>a.</b> The colour regions are the puzzle. Read their shapes before you place anything — the awkward, narrow ones carry most of the information.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/queens-2.webp 660w, assets/queens-2@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/queens-2.png" width="660" height="1050" loading="lazy" decoding="async" alt="A Queens board mid-solve: four black crowns are placed in different colour regions and many surrounding cells carry faint X marks showing eliminated squares.">
+        </picture>
+        <figcaption><b>b.</b> Tap an empty cell once for an X, again for a crown, and a third time to clear it. To eliminate a whole run at once, press and drag across the board — a drag only ever writes X marks on empty cells, so it can never knock out a crown you have already placed.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/queens-3.webp 660w, assets/queens-3@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/queens-3.png" width="660" height="1050" loading="lazy" decoding="async" alt="A Queens board showing a conflict: two crowns sitting on diagonally adjacent cells are highlighted in red, while a third valid crown remains black.">
+        </picture>
+        <figcaption><b>c.</b> Queens that break a rule turn red, along with the cell behind them. Here two crowns are touching corner to corner — legal in every row and column, and still wrong.</figcaption>
+      </figure>
+    </div>
+
+    <h3>The tap cycle</h3>
+    <div class="cycle">
+      <svg viewBox="0 0 392 176" role="img" aria-label="Diagram: tapping one cell cycles it from empty, to an X mark, to a queen, and back to empty.">
+        <g fill="currentColor" fill-opacity="0.05">
+          <rect x="8"   y="26" width="96" height="96" rx="12"/>
+          <rect x="148" y="26" width="96" height="96" rx="12"/>
+          <rect x="288" y="26" width="96" height="96" rx="12"/>
+        </g>
+        <g fill="none" stroke="currentColor" stroke-opacity="0.16" stroke-width="1">
+          <rect x="8"   y="26" width="96" height="96" rx="12"/>
+          <rect x="148" y="26" width="96" height="96" rx="12"/>
+          <rect x="288" y="26" width="96" height="96" rx="12"/>
+        </g>
+        <text x="56"  y="14" text-anchor="middle">EMPTY</text>
+        <text x="196" y="14" text-anchor="middle">MARK</text>
+        <text x="336" y="14" text-anchor="middle">QUEEN</text>
+
+        <g stroke="currentColor" stroke-opacity="0.45" stroke-width="3.5" stroke-linecap="round">
+          <line x1="184" y1="62" x2="208" y2="86"/><line x1="208" y1="62" x2="184" y2="86"/>
+        </g>
+        <g fill="currentColor">
+          <path d="M316 90 L316 62 L326 73 L336 54 L346 73 L356 62 L356 90 Z"/>
+          <rect x="314" y="92" width="44" height="7" rx="2.5"/>
+        </g>
+
+        <g stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M112 74 H136"/><path d="M132 70 L137 74 L132 78"/>
+          <path d="M252 74 H276"/><path d="M272 70 L277 74 L272 78"/>
+          <path d="M336 130 C336 152 300 156 196 156 C92 156 56 152 56 132"/>
+          <path d="M51 138 L56 130 L61 138"/>
+        </g>
+        <text class="step" x="124" y="64" text-anchor="middle">TAP</text>
+        <text class="step" x="264" y="64" text-anchor="middle">TAP</text>
+        <text class="step" x="196" y="172" text-anchor="middle">TAP</text>
+      </svg>
+      <p class="cycle-note">A drag never reaches the queen state. It only turns empty cells into X marks, which makes sweeping safe at speed.</p>
+    </div>
+
+    <h3>Tips</h3>
+    <ul class="tips">
+      <li><strong>Start with the region that spans the fewest lines.</strong> If a colour occupies cells in only one row, that row's queen belongs to it — so every other cell in that row can be X'd out at once, and often that alone cracks the board open.</li>
+      <li><strong>Turn the argument around when you are stuck.</strong> Instead of asking which region a row belongs to, find a row whose remaining free cells all sit inside a single region: that region's queen is pinned to that row, and you can clear its cells from every other row.</li>
+      <li><strong>Sweep immediately after every crown.</strong> A queen eliminates its row, its column, its whole region and all eight neighbours. Drag those X's in while the reasoning is fresh — otherwise you will re-derive the same eliminations three moves later and lose the time you were racing for.</li>
+    </ul>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ HASHI -->
+  <section id="hashi" aria-labelledby="hashi-h">
+    <p class="eyebrow">Puzzle 03</p>
+    <h2 id="hashi-h">Hashi</h2>
+    <p class="tagline">Bridge every island into one connected network, giving each exactly the number it asks for.</p>
+
+    <dl class="glance">
+      <div>
+        <dt>Goal</dt>
+        <dd>Connect the islands with bridges so every island has exactly as many bridges as its number, and the whole map forms one single network.</dd>
+      </div>
+      <div>
+        <dt>Board</dt>
+        <dd>Numbered islands on an open grid, connected only horizontally and vertically.</dd>
+      </div>
+      <div>
+        <dt>Controls</dt>
+        <dd>Tap the water between two islands to cycle the bridge count there.</dd>
+      </div>
+      <div>
+        <dt>Typical solve</dt>
+        <dd class="mono">1–3 min on Easy</dd>
+      </div>
+    </dl>
+
+    <h3>Rules</h3>
+    <ol class="rules">
+      <li>Bridges run only <strong>horizontally or vertically</strong>, in a straight line between two islands.</li>
+      <li>At most <strong>two bridges</strong> may join the same pair of islands.</li>
+      <li>Bridges may not cross each other, and may not pass over an island.</li>
+      <li>Each island must end up with <strong>exactly</strong> as many bridge ends as its number.</li>
+      <li>When it is done, every island must be reachable from every other one — a perfectly numbered map that falls into two separate clusters is not a solution.</li>
+    </ol>
+
+    <h3>How to play</h3>
+    <div class="shots">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/hashi-1.webp 660w, assets/hashi-1@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/hashi-1.png" width="660" height="1050" loading="lazy" decoding="async" alt="A fresh Hashi puzzle: circled islands numbered from 1 to 4 scattered on a grid, with faint guide lines showing which pairs could be joined and no bridges built yet.">
+        </picture>
+        <figcaption><b>a.</b> Faint guide lines show every pair that <em>could</em> be joined. The numbers say how many bridge ends each island needs.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/hashi-2.webp 660w, assets/hashi-2@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/hashi-2.png" width="660" height="1050" loading="lazy" decoding="async" alt="A Hashi board mid-solve, with single and double bridges drawn between islands. Islands that already have exactly the right number of bridges are filled in green, while the rest stay outlined in black.">
+        </picture>
+        <figcaption><b>b.</b> Tap the stretch of water between two islands: once for a single bridge, again for a double, a third time to remove it. Islands fill green the moment their number is satisfied, and the app simply refuses any tap that would overshoot a number or cross an existing bridge.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/hashi-3.webp 660w, assets/hashi-3@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/hashi-3.png" width="660" height="1050" loading="lazy" decoding="async" alt="A completed Hashi puzzle dimmed behind a white result sheet that has slid up from the bottom of the screen with the heading Solved.">
+        </picture>
+        <figcaption><b>c.</b> Complete the network and the board settles, dims, and hands you the result sheet — your time, today's rank and your streak.</figcaption>
+      </figure>
+    </div>
+
+    <h3>The tap cycle</h3>
+    <div class="cycle">
+      <svg viewBox="0 0 392 176" role="img" aria-label="Diagram: tapping between two islands cycles the link from no bridge, to one bridge, to two bridges, and back to none.">
+        <g fill="none" stroke="currentColor" stroke-opacity="0.16" stroke-width="1">
+          <rect x="8"   y="26" width="96" height="96" rx="12"/>
+          <rect x="148" y="26" width="96" height="96" rx="12"/>
+          <rect x="288" y="26" width="96" height="96" rx="12"/>
+        </g>
+        <text x="56"  y="14" text-anchor="middle">NO BRIDGE</text>
+        <text x="196" y="14" text-anchor="middle">ONE</text>
+        <text x="336" y="14" text-anchor="middle">TWO</text>
+
+        <g fill="none" stroke="currentColor" stroke-opacity="0.55" stroke-width="2.5">
+          <circle cx="34"  cy="74" r="14"/><circle cx="78"  cy="74" r="14"/>
+          <circle cx="174" cy="74" r="14"/><circle cx="218" cy="74" r="14"/>
+          <circle cx="314" cy="74" r="14"/><circle cx="358" cy="74" r="14"/>
+        </g>
+        <g stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <line x1="188" y1="74" x2="204" y2="74"/>
+          <line x1="328" y1="69" x2="344" y2="69"/>
+          <line x1="328" y1="79" x2="344" y2="79"/>
+        </g>
+
+        <g stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M112 74 H136"/><path d="M132 70 L137 74 L132 78"/>
+          <path d="M252 74 H276"/><path d="M272 70 L277 74 L272 78"/>
+          <path d="M336 130 C336 152 300 156 196 156 C92 156 56 152 56 132"/>
+          <path d="M51 138 L56 130 L61 138"/>
+        </g>
+        <text class="step" x="124" y="64" text-anchor="middle">TAP</text>
+        <text class="step" x="264" y="64" text-anchor="middle">TAP</text>
+        <text class="step" x="196" y="172" text-anchor="middle">TAP</text>
+      </svg>
+      <p class="cycle-note">The tap target is the water between two islands, not the islands themselves — aim at the gap and the nearest legal link takes it.</p>
+    </div>
+
+    <h3>Tips</h3>
+    <ul class="tips">
+      <li><strong>Look for islands whose number is twice their options.</strong> A 4 with only two neighbours takes a double bridge in both directions; an 8 anywhere takes a double in all four. Those are free, and they usually cascade.</li>
+      <li><strong>A 1 never links to another 1, and two 2s never double up with each other.</strong> Either move would seal that pair off from the rest of the map, and connectivity is a hard requirement — so those links can be ruled out before you build anything.</li>
+      <li><strong>Let the refusals do work for you.</strong> Once an island turns green it accepts nothing more, and each bridge you lay also forbids every crossing. When a neighbour is left with only one legal direction, that bridge is forced — check the islands around each newly green one before hunting elsewhere.</li>
+    </ul>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════ MASYU -->
+  <section id="masyu" aria-labelledby="masyu-h">
+    <p class="eyebrow">Puzzle 04</p>
+    <h2 id="masyu-h">Masyu</h2>
+    <p class="tagline">One loop through every pearl — white ones passed straight, black ones turned.</p>
+
+    <dl class="glance">
+      <div>
+        <dt>Goal</dt>
+        <dd>Draw a single closed loop that visits every pearl and respects what each colour demands.</dd>
+      </div>
+      <div>
+        <dt>Board</dt>
+        <dd>A grid of nodes with white (hollow) and black (filled) pearls sitting on some of them.</dd>
+      </div>
+      <div>
+        <dt>Controls</dt>
+        <dd>Drag between neighbouring nodes to draw. Drag back along a segment to erase it.</dd>
+      </div>
+      <div>
+        <dt>Typical solve</dt>
+        <dd class="mono">1–2 min on Easy</dd>
+      </div>
+    </dl>
+
+    <h3>Rules</h3>
+    <ol class="rules">
+      <li>Draw <strong>one closed loop</strong> along the grid, moving only horizontally and vertically between neighbouring nodes.</li>
+      <li>The loop never crosses itself and never branches — each node it uses has exactly two segments.</li>
+      <li>The loop must pass through <strong>every</strong> pearl, white and black alike.</li>
+      <li><strong>White pearl:</strong> the loop goes straight through it, and must turn on at least one of the two nodes immediately beside it.</li>
+      <li><strong>Black pearl:</strong> the loop turns on it, and must continue straight for at least one more node on both sides of the turn.</li>
+      <li>Nodes with no pearl are free — the loop may go straight, turn, or skip them entirely.</li>
+    </ol>
+
+    <h3>How to play</h3>
+    <div class="shots">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/masyu-1.webp 660w, assets/masyu-1@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/masyu-1.png" width="660" height="1050" loading="lazy" decoding="async" alt="A fresh Masyu puzzle: a faint grid holding two hollow white pearls and four filled black pearls, with no loop drawn yet. A legend below reads: straight through, then turn for white; turn here, straight after for black.">
+        </picture>
+        <figcaption><b>a.</b> Hollow pearls are white, filled ones are black. The legend under the board restates both rules, so you never have to remember which is which.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/masyu-2.webp 660w, assets/masyu-2@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/masyu-2.png" width="660" height="1050" loading="lazy" decoding="async" alt="A Masyu board mid-solve, with a thick black path drawn through several pearls, turning at the black ones and running straight through the white ones.">
+        </picture>
+        <figcaption><b>b.</b> Press on a node and drag to a neighbour: the segment appears under your finger, and you can keep going to draw a whole run in one stroke. Retrace the way you came and the segments come back off — the stroke you started with doubles as the eraser.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/masyu-3.webp 660w, assets/masyu-3@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/masyu-3.png" width="660" height="1050" loading="lazy" decoding="async" alt="A Masyu board where two pearls are outlined in red: a black pearl the loop runs straight through, and a white pearl the loop turns on. Both break their colour's rule.">
+        </picture>
+        <figcaption><b>c.</b> A pearl outlines itself in red the moment the path around it contradicts its rule — here a black pearl was passed straight through and a white one was turned on.</figcaption>
+      </figure>
+    </div>
+
+    <h3>Drawing and erasing</h3>
+    <div class="cycle">
+      <svg viewBox="0 0 392 150" role="img" aria-label="Diagram: drag between neighbouring nodes to draw a segment, drag back along it to erase, and note that a third segment at the same node is refused.">
+        <g fill="none" stroke="currentColor" stroke-opacity="0.16" stroke-width="1">
+          <rect x="8"   y="26" width="96" height="96" rx="12"/>
+          <rect x="148" y="26" width="96" height="96" rx="12"/>
+          <rect x="288" y="26" width="96" height="96" rx="12"/>
+        </g>
+        <text x="56"  y="14" text-anchor="middle">DRAG TO DRAW</text>
+        <text x="196" y="14" text-anchor="middle">DRAG BACK</text>
+        <text x="336" y="14" text-anchor="middle">NO BRANCHING</text>
+
+        <g fill="currentColor" fill-opacity="0.22">
+          <circle cx="28"  cy="46" r="2.5"/><circle cx="56"  cy="46" r="2.5"/><circle cx="84"  cy="46" r="2.5"/>
+          <circle cx="28"  cy="74" r="2.5"/><circle cx="56"  cy="74" r="2.5"/><circle cx="84"  cy="74" r="2.5"/>
+          <circle cx="28"  cy="102" r="2.5"/><circle cx="56" cy="102" r="2.5"/><circle cx="84" cy="102" r="2.5"/>
+          <circle cx="168" cy="46" r="2.5"/><circle cx="196" cy="46" r="2.5"/><circle cx="224" cy="46" r="2.5"/>
+          <circle cx="168" cy="74" r="2.5"/><circle cx="196" cy="74" r="2.5"/><circle cx="224" cy="74" r="2.5"/>
+          <circle cx="168" cy="102" r="2.5"/><circle cx="196" cy="102" r="2.5"/><circle cx="224" cy="102" r="2.5"/>
+          <circle cx="308" cy="46" r="2.5"/><circle cx="336" cy="46" r="2.5"/><circle cx="364" cy="46" r="2.5"/>
+          <circle cx="308" cy="74" r="2.5"/><circle cx="336" cy="74" r="2.5"/><circle cx="364" cy="74" r="2.5"/>
+          <circle cx="308" cy="102" r="2.5"/><circle cx="336" cy="102" r="2.5"/><circle cx="364" cy="102" r="2.5"/>
+        </g>
+
+        <!-- draw -->
+        <path d="M28 102 L28 74 L56 74 L84 74" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="84" cy="74" r="9" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="2"/>
+        <!-- erase -->
+        <path d="M168 102 L168 74 L196 74" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M196 74 L224 74" fill="none" stroke="currentColor" stroke-opacity="0.18" stroke-width="4" stroke-dasharray="3 5" stroke-linecap="round"/>
+        <circle cx="196" cy="74" r="9" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="2"/>
+        <g stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M222 56 H198"/><path d="M203 52 L198 56 L203 60"/>
+        </g>
+        <!-- blocked branch -->
+        <path d="M308 74 L336 74 L336 46" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M336 74 L336 102" fill="none" stroke="currentColor" stroke-opacity="0.3" stroke-width="4" stroke-dasharray="3 5" stroke-linecap="round"/>
+        <g stroke="currentColor" stroke-opacity="0.6" stroke-width="2.5" stroke-linecap="round">
+          <line x1="330" y1="82" x2="342" y2="94"/><line x1="342" y1="82" x2="330" y2="94"/>
+        </g>
+      </svg>
+      <p class="cycle-note">A node can hold two segments and no more. If your drag stops dead, you have asked for a fork — which means one of the two segments already there is wrong.</p>
+    </div>
+
+    <h3>Tips</h3>
+    <ul class="tips">
+      <li><strong>Black pearls on or near the wall are the cheapest openings.</strong> A black pearl must turn and then run two nodes straight in both directions, so one on the edge — or one node in from it — can only turn along the border. That fixes both of its arms before you have drawn anything else.</li>
+      <li><strong>Two black pearls side by side push each other apart.</strong> Neither can send its straight run through the other, so from each one the two nodes running away from its partner are forced.</li>
+      <li><strong>A white pearl on the edge is decided the moment you see it.</strong> The loop must pass straight through it and cannot leave the grid, so its line runs along the wall — and then it has to turn on one side or the other, which usually settles the corner beside it too.</li>
+    </ul>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════════ INSIDE NOREN -->
+  <section id="inside-noren" aria-labelledby="inside-h">
+    <p class="eyebrow">App tour</p>
+    <h2 id="inside-h">Inside Noren</h2>
+    <p class="tagline">Four tabs. One daily set, everything you have played before, where you stand, and who you are.</p>
+
+    <div class="tour">
+      <article>
+        <picture>
+          <source type="image/webp" srcset="assets/today.webp 660w, assets/today@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
+          <img src="assets/today.png" width="660" height="880" loading="lazy" decoding="async" alt="The Today tab: a greeting, a streak counter, a countdown to the next puzzle, a card for today's Slitherlink showing the difficulty and a green Solved banner with the time, and a week strip below marking which days were completed.">
+        </picture>
+        <h3>Today</h3>
+        <p>One puzzle from each of the four games, every day, identical for everyone who plays — so the times on the leaderboard mean something. Swipe the card to move between the day's games; a countdown at the top tells you when the next set unlocks.</p>
+        <p>The week strip underneath is your streak. A day counts once you have solved it, and the strip is what you will be protecting after the first fortnight.</p>
+      </article>
+
+      <article>
+        <picture>
+          <source type="image/webp" srcset="assets/archive.webp 660w, assets/archive@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
+          <img src="assets/archive.png" width="660" height="1260" loading="lazy" decoding="async" alt="The Archive tab: game filter tabs, summary statistics for solved, missed, rate and average time, and a monthly calendar where completed days are solid black with a tick and locked days are outlined with a dashed border.">
+        </picture>
+        <h3>Archive</h3>
+        <p>Nothing expires. Every past day stays playable, filtered by game, with solved days filled in and missed ones left open. The header keeps a running count of what you have solved, what you missed, your success rate and your average time.</p>
+        <p><strong>The last seven days are free for everyone.</strong> Anything older than that is part of Noren Premium. Replaying a day you have already solved is timed separately, so your original result stays intact.</p>
+      </article>
+
+      <article>
+        <picture>
+          <source type="image/webp" srcset="assets/ranks.webp 660w, assets/ranks@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
+          <img src="assets/ranks.png" width="660" height="806" loading="lazy" decoding="async" alt="The Ranks tab: a tier card showing the Expert badge, the text Tier based on your last 90 days, an overall standing of Top 42 percent, a stable trend, and a progress bar marking the position between Expert and Master, followed by filter rows for game, time range and friends, country or global.">
+        </picture>
+        <h3>Ranks</h3>
+        <p>Your tier is earned, not bought. It comes from your daily percentile across the last 90 days and climbs through six steps — <strong>Pre-Apprentice, Apprentice, Adept, Expert, Master, Grandmaster</strong> — each one a narrower slice of the field than the last. The card shows where you sit inside your current tier and how far the next one is.</p>
+        <p>Leaderboards below filter three ways at once: by game, by week, month or all time, and by friends, country or global.</p>
+      </article>
+
+      <article>
+        <picture>
+          <source type="image/webp" srcset="assets/profile.webp 660w, assets/profile@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
+          <img src="assets/profile.png" width="660" height="1260" loading="lazy" decoding="async" alt="The Profile tab: a name card with Expert and Premium badges and a join date, tiles for streak, best streak, solves, average time and total time, and a line chart of average solve time by difficulty over the last eight weeks.">
+        </picture>
+        <h3>Profile</h3>
+        <p>Streak, best streak, total solves, average time and hours played, plus a chart of your average solve time by difficulty over the last eight weeks — the honest way to see whether you are actually getting faster.</p>
+        <p>Replay statistics track your biggest improvements on puzzles you have returned to. Daily reminders, streak warnings, dark mode, haptics, sound and offline archive play are all set here.</p>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <div class="footer-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="support.html">Support</a>
+  </div>
+  <p class="updated">Last updated: 2026-07-27</p>
+  <p style="margin-top:var(--s-sm)">© 2026 Farkas József</p>
+</footer>
+
+</body>
+</html>
