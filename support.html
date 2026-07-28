@@ -3,11 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
 <title>Support — NOREN</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
 
   :root {
+    /* ── Light palette — UNCHANGED ────────────────────────────────────────
+       These pages are the documents registered in App Store Connect. Every
+       light value below is identical to the original, so light rendering is
+       byte-for-byte what it was. Only the dark block below is new.
+       ──────────────────────────────────────────────────────────────────── */
     --bg: #F5F2EB;
     --ink: #1A1A1A;
     --mid: #6E6E6E;
@@ -15,6 +21,34 @@
     --accent: #2563EB;
     --card: #EFECE4;
     --max: 680px;
+
+    /* Roles lifted out of hardcoded hex values (and split off --card /
+       --light where one variable was serving both a surface and a text or
+       border role) so the dark block can address each separately. In light
+       each is set to exactly the value it replaced — nothing shifts. */
+    --body-text: #2A2A2A;     /* was hardcoded on p and ul li                 */
+    --hairline:  #EFECE4;     /* was var(--card) on h2 + li bottom borders    */
+    --faint:     #C8C4BA;     /* was var(--light) on footer text + li dash    */
+  }
+
+  /* ── Dark theme ─────────────────────────────────────────────────────────
+     The app's own dark tokens (lib/theme/colors.dart → AppColors.dark — the
+     same values how-to-play.html uses), mapped onto this page's roles. No
+     colour is invented here; every value is an existing Noren token. The
+     comment on each line names the token and its measured contrast on --bg.
+     ────────────────────────────────────────────────────────────────────── */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:        #0B0B0D;                     /* bg                        */
+      --ink:       #F4F2EC;                     /* ink       — 17.6:1        */
+      --body-text: #F4F2EC;                     /* ink       — 17.6:1        */
+      --mid:       #9D9B91;                     /* ink2      —  7.1:1        */
+      --faint:     #9D9B91;                     /* ink2      —  7.1:1        */
+      --accent:    #B5D0F7;                     /* accentInk — 12.5:1        */
+      --card:      #16161A;                     /* bgElev                    */
+      --light:     rgba(255, 255, 255, 0.098);  /* line2 — border role only  */
+      --hairline:  rgba(255, 255, 255, 0.098);  /* line2                     */
+    }
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -119,7 +153,7 @@
     color: var(--ink);
     margin-bottom: 16px;
     padding-bottom: 8px;
-    border-bottom: 1px solid var(--card);
+    border-bottom: 1px solid var(--hairline);
   }
 
   h3 {
@@ -133,7 +167,7 @@
 
   p {
     font-size: 15px;
-    color: #2A2A2A;
+    color: var(--body-text);
     margin-bottom: 14px;
   }
 
@@ -144,10 +178,10 @@
 
   ul li {
     font-size: 15px;
-    color: #2A2A2A;
+    color: var(--body-text);
     padding: 6px 0 6px 20px;
     position: relative;
-    border-bottom: 1px solid var(--card);
+    border-bottom: 1px solid var(--hairline);
   }
 
   ul li:last-child { border-bottom: none; }
@@ -156,7 +190,7 @@
     content: '—';
     position: absolute;
     left: 0;
-    color: var(--light);
+    color: var(--faint);
     font-size: 13px;
   }
 
@@ -189,7 +223,7 @@
 
   footer p {
     font-size: 12px;
-    color: var(--light);
+    color: var(--faint);
     margin: 0;
   }
 
@@ -198,7 +232,7 @@
     font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--light);
+    color: var(--faint);
   }
 
   @media (max-width: 480px) {
