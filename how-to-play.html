@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="How to play the four logic puzzles in Noren — Slitherlink, Queens, Hashi and Masyu — plus a tour of the app.">
+<meta name="description" content="How to play the four logic puzzles in Noren — Slitherlink, Queens, Hashi and Masyu — and Fusuma, the weekly challenge, plus a tour of the app.">
 <title>How to Play — NOREN</title>
 <style>
   /* ─────────────────────────────────────────────────────────────────────────
@@ -244,7 +244,7 @@
   /* ── Screenshot gallery ─────────────────────────────────────────────────── */
   .shots {
     display: grid; gap: var(--s-xl);
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     margin-top: var(--s-lg);
   }
   /* No max-width and no auto margins: the figure fills its grid column, so its
@@ -292,6 +292,8 @@
     background: var(--bg-tint);
   }
   .tour h3 { margin: 0 0 var(--s-sm); }
+  h3[id] { scroll-margin-top: 64px; }
+  .shots + p { margin-top: var(--s-lg); }
 
   /* ── Footer ─────────────────────────────────────────────────────────────── */
   footer {
@@ -321,7 +323,7 @@
   </div>
 
   <h1>How to Play</h1>
-  <p class="lede">Four classic logic puzzles, one fresh set every day. Here is what each puzzle asks of you, and exactly what every tap and drag does.</p>
+  <p class="lede">Four classic logic puzzles, one fresh set every day — and once a week, Fusuma, which ties all four together. Here is what each puzzle asks of you, and exactly what every tap and drag does.</p>
   <p class="lede">Every screenshot on this page was taken in light mode. Dark mode keeps the same layout and swaps the light surfaces for dark ones — what is drawn in black in these images is drawn in near-white there.</p>
 </header>
 
@@ -331,6 +333,7 @@
     <a href="#queens">Queens</a>
     <a href="#hashi">Hashi</a>
     <a href="#masyu">Masyu</a>
+    <a href="#fusuma">Fusuma</a>
     <a href="#inside-noren">Inside Noren</a>
   </div>
 </nav>
@@ -759,53 +762,178 @@
     </ul>
   </section>
 
+  <!-- ═══════════════════════════════════════════════════════════════ FUSUMA -->
+  <section id="fusuma" aria-labelledby="fusuma-h">
+    <p class="eyebrow">Weekly challenge</p>
+    <h2 id="fusuma-h">Fusuma</h2>
+    <p class="tagline">Four puzzles through the week, each one sliding open a panel of the fifth.</p>
+
+    <dl class="glance">
+      <div>
+        <dt>Goal</dt>
+        <dd>Solve the four feeder puzzles to uncover the Final, then solve the Final to complete the week.</dd>
+      </div>
+      <div>
+        <dt>Week</dt>
+        <dd>Monday to Sunday. A new set is published every Monday.</dd>
+      </div>
+      <div>
+        <dt>Rules and controls</dt>
+        <dd>Exactly the same as the daily game each stage belongs to.</dd>
+      </div>
+      <div>
+        <dt>Ranking</dt>
+        <dd>Stages solved first, then total time.</dd>
+      </div>
+    </dl>
+
+    <h3>Rules</h3>
+    <ol class="rules">
+      <li>Every week has <strong>five stages</strong>: four feeders — one <a href="#slitherlink">Slitherlink</a>, one <a href="#queens">Queens</a>, one <a href="#hashi">Hashi</a> and one <a href="#masyu">Masyu</a> — and a <strong>Final</strong>, which is a Slitherlink.</li>
+      <li>Each stage plays by exactly the rules of its daily game, with the same taps and drags. Fusuma puzzles are set at <strong>Challenge difficulty</strong>: the rules do not change, the deductions simply run deeper.</li>
+      <li>Every feeder you solve <strong>reveals part of the Final's clues</strong>. You can look at the Final at any time, but you can only play it once all four feeders are solved and every clue is showing.</li>
+      <li>The week is open until Sunday. Your place counts how many of the five stages you solved, and then your total time across them.</li>
+      <li>Solving the Final completes the week.</li>
+    </ol>
+
+    <h3>How to play</h3>
+    <div class="shots">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/fusuma-1.webp 660w, assets/fusuma-1@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/fusuma-1.png" width="660" height="1185" loading="lazy" decoding="async" alt="The Today tab showing the Fusuma card: the heading Weekly challenge, the title Fusuma, the text Solve four puzzles this week to slide the panels open, a preview of the Final partly covered by panels, and a black Solve final button. Below it a This week strip with four filled stage icons and one empty, and a Weekly Challenge leaderboard where a player with 5 of 5 stages in 41:56 sits above a player with 4 of 5 in 13:50.">
+        </picture>
+        <figcaption><b>a.</b> Fusuma is the fifth card on Today, and the countdown above it switches to the next weekly challenge. The strip underneath fills in stage by stage. On the leaderboard, stages solved come before time: 5/5 in 41:56 is ahead of 4/5 in 13:50.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/fusuma-2.webp 660w, assets/fusuma-2@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/fusuma-2.png" width="660" height="865" loading="lazy" decoding="async" alt="The Weekly Challenge page for week 2026-W40, open until Sunday, 4 of 5 solved. Slitherlink, Queens, Hashi and Masyu are each marked Solved at Challenge difficulty with their times, the Final Slitherlink is marked Not started, and a total time of 13:50 is shown at the bottom.">
+        </picture>
+        <figcaption><b>b.</b> Tap the card to open the week. Every stage is listed with its time. Here all four feeders are done, so the Final is ready to play; the total time is the sum of the stages.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/fusuma-3.webp 660w, assets/fusuma-3@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/fusuma-3.png" width="660" height="1135" loading="lazy" decoding="async" alt="The Archive tab with Challenge selected: totals for solved, missed, rate and average time, a list of weeks in September 2026 marked as missed, solved or in progress, and a detail card for week 2026-W38 showing each stage, the best time, the ranked time with its placing, the replay time, and buttons to continue the replay or start over.">
+        </picture>
+        <figcaption><b>c.</b> Every past week stays in the Archive under Challenge, with the stages you solved and your total. The detail card shows the best time, your ranked time and placing that week, and your replay — which, as with daily puzzles, never overwrites the ranked result.</figcaption>
+      </figure>
+    </div>
+
+    <h3>Tips</h3>
+    <ul class="tips">
+      <li><strong>Read the Final as it uncovers.</strong> It is visible from the start of the week, and each solved feeder adds clues. By the time it unlocks you can already have its first deductions worked out.</li>
+      <li><strong>Finishing matters more than speed.</strong> A stage left unsolved costs you more places than a slow one, because the ranking counts solved stages before it looks at the clock.</li>
+    </ul>
+  </section>
+
   <!-- ═════════════════════════════════════════════════════════ INSIDE NOREN -->
   <section id="inside-noren" aria-labelledby="inside-h">
     <p class="eyebrow">App tour</p>
     <h2 id="inside-h">Inside Noren</h2>
-    <p class="tagline">Four tabs. One daily set, everything you have played before, where you stand, and who you are.</p>
+    <p class="tagline">Four tabs — today's set, everything you have played before, where you stand, and who you are — plus the settings behind the gear on your profile.</p>
 
     <div class="tour">
       <article>
         <picture>
           <source type="image/webp" srcset="assets/today.webp 660w, assets/today@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
-          <img src="assets/today.png" width="660" height="880" loading="lazy" decoding="async" alt="The Today tab: a greeting, a streak counter, a countdown to the next puzzle, a card for today's Slitherlink showing the difficulty and a green Solved banner with the time, and a week strip below marking which days were completed.">
+          <img src="assets/today.png" width="660" height="875" loading="lazy" decoding="async" alt="The Today tab: a greeting, a streak counter of 109, a countdown to the next puzzle, a card for today&#x27;s Slitherlink at Medium difficulty with a green Solved banner at 0:31, and a This week strip for Slitherlink with Monday to Wednesday ticked.">
         </picture>
         <h3>Today</h3>
-        <p>One puzzle from each of the four games, every day, identical for everyone who plays — so the times on the leaderboard mean something. Swipe the card to move between the day's games; a countdown at the top tells you when the next set unlocks.</p>
-        <p>The week strip underneath is your streak. A day counts once you have solved it, and the strip is what you will be protecting after the first fortnight.</p>
+        <p>One puzzle from each of the four games, every day, identical for everyone who plays — so the times on the leaderboard mean something. Swipe the card to move between the day's games; the fifth card is <a href="#fusuma">Fusuma</a>. The countdown at the top tells you when the next set unlocks.</p>
+        <p>Difficulty follows the week: <strong>Easy</strong> on Monday and Tuesday, <strong>Medium</strong> on Wednesday and Thursday, <strong>Hard</strong> from Friday to Sunday. The strip under the card shows which days of this week you have solved that game, and further down, today's leaderboard for it — friends, country or global.</p>
       </article>
-
       <article>
         <picture>
           <source type="image/webp" srcset="assets/archive.webp 660w, assets/archive@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
-          <img src="assets/archive.png" width="660" height="1260" loading="lazy" decoding="async" alt="The Archive tab: game filter tabs, summary statistics for solved, missed, rate and average time, and a monthly calendar where completed days are solid black with a tick and locked days are outlined with a dashed border.">
+          <img src="assets/archive.png" width="660" height="1275" loading="lazy" decoding="async" alt="The Archive tab with Daily selected and a Play offline button: game tabs, totals for solved, missed, rate and average time, and a May 2026 calendar mixing solid black solved days, dashed unsolved days, striped days, and days marked with a replay arrow. Below, the detail card for May 30 shows the best, ranked and replay times and a Play Again button.">
         </picture>
         <h3>Archive</h3>
-        <p>Nothing expires. Every past day stays playable, filtered by game, with solved days filled in and missed ones left open. The header keeps a running count of what you have solved, what you missed, your success rate and your average time.</p>
-        <p><strong>The last seven days are free for everyone.</strong> Anything older than that is part of Noren Premium. Replaying a day you have already solved is timed separately, so your original result stays intact.</p>
+        <p>Nothing expires. Every past day stays playable — <strong>Daily</strong> for the four games, <strong>Challenge</strong> for past Fusuma weeks — with running totals for solved, missed, success rate and average time.</p>
+        <p>The calendar reads at a glance. <strong>Solid black</strong>: solved. <strong>Black with stripes</strong>: solved, with a replay started and not finished. <strong>Light with stripes</strong>: started, not finished. <strong>Dashed outline</strong>: not solved. A tick marks the solve, a circular arrow a replay.</p>
+        <p><strong>The last seven days are free for everyone.</strong> Anything older is part of Noren Premium, as is Play offline, which keeps the archive on your phone. Replaying a day you have already solved is timed separately, so your original result stays intact.</p>
       </article>
-
       <article>
         <picture>
           <source type="image/webp" srcset="assets/ranks.webp 660w, assets/ranks@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
-          <img src="assets/ranks.png" width="660" height="806" loading="lazy" decoding="async" alt="The Ranks tab: a tier card showing the Expert badge, the text Tier based on your last 90 days, an overall standing of Top 42 percent, a stable trend, and a progress bar marking the position between Expert and Master, followed by filter rows for game, time range and friends, country or global.">
+          <img src="assets/ranks.png" width="660" height="1145" loading="lazy" decoding="async" alt="The Ranks tab with Daily selected: a tier card with the Expert badge, today&#x27;s time, Tier based on your last 90 days, Top 36 percent overall, a rising trend and a bar showing 22 points to Master; filter rows for game, time range and friends, country or global; and a leaderboard with your own position on top.">
         </picture>
         <h3>Ranks</h3>
-        <p>Your tier is earned, not bought. It comes from your daily percentile across the last 90 days and climbs through six steps — <strong>Pre-Apprentice, Apprentice, Adept, Expert, Master, Grandmaster</strong> — each one a narrower slice of the field than the last. The card shows where you sit inside your current tier and how far the next one is.</p>
-        <p>Leaderboards below filter three ways at once: by game, by week, month or all time, and by friends, country or global.</p>
+        <p>Your tier is earned, not bought. It comes from your daily percentile across the last 90 days and climbs through six steps — <strong>Pre-Apprentice, Apprentice, Adept, Expert, Master, Grandmaster</strong> — each one a narrower slice of the field than the last. The card shows your trend and how far the next tier is.</p>
+        <p>Leaderboards filter three ways at once: by game, by week, month or all time, and by friends, country or global. The <strong>Challenge</strong> tab ranks Fusuma by your average placing across the closed weeks in the window. The icon in the top corner is where you find and invite friends.</p>
       </article>
-
       <article>
         <picture>
-          <source type="image/webp" srcset="assets/profile.webp 660w, assets/profile@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
-          <img src="assets/profile.png" width="660" height="1260" loading="lazy" decoding="async" alt="The Profile tab: a name card with Expert and Premium badges and a join date, tiles for streak, best streak, solves, average time and total time, and a line chart of average solve time by difficulty over the last eight weeks.">
+          <source type="image/webp" srcset="assets/settings.webp 660w, assets/settings@2x.webp 1320w" sizes="(min-width: 620px) 260px, 260px">
+          <img src="assets/settings.png" width="660" height="1035" loading="lazy" decoding="async" alt="The Settings screen: notification switches for daily reminder with a reminder time, streak reminder, friend activity and new weekly challenge, followed by preferences for dark mode with Light, Auto and Dark options, haptic feedback and sound effects.">
         </picture>
-        <h3>Profile</h3>
-        <p>Streak, best streak, total solves, average time and hours played, plus a chart of your average solve time by difficulty over the last eight weeks — the honest way to see whether you are actually getting faster.</p>
-        <p>Replay statistics track your biggest improvements on puzzles you have returned to. Daily reminders, streak warnings, dark mode, haptics, sound and offline archive play are all set here.</p>
+        <h3>Settings</h3>
+        <p>Behind the gear on your profile. Notifications: a daily reminder at the time you choose, a warning when your streak is at risk, a note when a friend solves today's puzzle, and a heads-up on Mondays when a new Fusuma set is out.</p>
+        <p>Dark mode (light, dark, or following your phone), haptics and sound are here, as are offline mode, your subscription, account deletion and sign-out — and a link back to this page.</p>
       </article>
     </div>
+
+    <h3>Profile</h3>
+    <p>Your profile is built around how you are growing, not how you compare. It reads from top to bottom:</p>
+    <div class="shots">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/profile-1.webp 660w, assets/profile-1@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/profile-1.png" width="660" height="1125" loading="lazy" decoding="async" alt="The top of the Profile tab: a name card with Expert and Premium badges and a join date, a Words to Keep row with 10 saved, and a Your first 365 days card with a ring showing day 135 of 365, 479 puzzles thought through, 123 days present, 14 hours 7 minutes spent thinking, 14 perfect weeks, 11 personal bests, a longest run of 109 days and 8 weekly sets completed.">
+        </picture>
+        <figcaption><b>a.</b> <b>Your first 365 days.</b> Your first year with Noren, counted as it happens: puzzles solved, days you showed up, time spent thinking, perfect weeks, personal bests, your longest run of days and the Fusuma weeks you completed. The <a href="#words-to-keep">Words to Keep</a> row sits just above it.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/profile-2.webp 660w, assets/profile-2@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/profile-2.png" width="660" height="1120" loading="lazy" decoding="async" alt="A This week&#x27;s spread card titled Close the ring, 12 of 28 this week: a ring of segments for the four games across seven days, with Easy on the inner ring, Medium in the middle and Hard on the outer ring, and the weekly challenge at the centre. Below, a When you think card with a bar chart of solves by hour of day.">
+        </picture>
+        <figcaption><b>b.</b> <b>This week's spread</b> gives every daily puzzle of the week its own segment — four games, seven days — placed on the inner, middle or outer ring by difficulty, with Fusuma at the centre. Solve all four every day and the ring closes. <b>When you think</b> shows the hours you usually play.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/profile-3.webp 660w, assets/profile-3@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/profile-3.png" width="660" height="840" loading="lazy" decoding="async" alt="A How you&#x27;ve grown section with two line charts: your solve times over time for Easy, Medium and Hard, and your weekly challenge total time, with the fastest run marked at 8:29.">
+        </picture>
+        <figcaption><b>c.</b> <b>How you've grown</b> tracks your solve times for each difficulty, and your Fusuma total week by week — the honest way to see whether you are actually getting faster.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/profile-4.webp 660w, assets/profile-4@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/profile-4.png" width="660" height="780" loading="lazy" decoding="async" alt="A Where you stand card headed Strongest in Masyu, with This week and All-time options: a radar across the four games showing your place among all solvers globally, such as number 1 of 13 in Masyu and number 4 of 14 in Slitherlink.">
+        </picture>
+        <figcaption><b>d.</b> <b>Where you stand</b> places you among every solver, globally, game by game — and names the game you are strongest in.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/profile-5.webp 660w, assets/profile-5@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/profile-5.png" width="660" height="745" loading="lazy" decoding="async" alt="A Replay stats card: 65 replays in total, 1 this week and 14 this month, a small bar chart, and a list of top improvements showing each puzzle&#x27;s first time, its replay time and the difference.">
+        </picture>
+        <figcaption><b>e.</b> <b>Replay stats</b> count the puzzles you have come back to, and list your biggest improvements: first time, replay time, and what you took off.</figcaption>
+      </figure>
+    </div>
+    <p>These screenshots were taken with Noren Premium. Without it, How you've grown covers the last four weeks, Where you stand shows the current week, and replay statistics cover your last seven days.</p>
+
+    <h3 id="words-to-keep">Words to Keep</h3>
+    <p>Every solve ends with a short line to take with you. Keep the ones that land.</p>
+    <div class="shots">
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/words-1.webp 660w, assets/words-1@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/words-1.png" width="660" height="1305" loading="lazy" decoding="async" alt="The result sheet after solving Slitherlink: Solved, with the time 0:31, today&#x27;s rank number 1 of 3 friends and top 1 percent globally, and a 109 day streak; beneath them a card with the line Keep your side of things clean; the rest isn&#x27;t yours, a bookmark icon in its corner, and Share result and Continue buttons.">
+        </picture>
+        <figcaption><b>a.</b> Solve any of the four daily games and the result sheet carries the day's line — the same one all day, whichever game you solve. Finishing a Fusuma week brings a line of its own. Tap the bookmark to keep it.</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="assets/words-2.webp 660w, assets/words-2@2x.webp 1320w" sizes="(min-width: 720px) 214px, (min-width: 480px) calc((100vw - 60px) / 2), calc(100vw - 40px)">
+          <img src="assets/words-2.png" width="660" height="1235" loading="lazy" decoding="async" alt="The Words to Keep screen, subtitled The thoughts you chose to carry with you: a For Today card with a saved line, followed by a September 2026 list of saved lines, each with the date it was kept.">
+        </picture>
+        <figcaption><b>b.</b> Your collection opens from the Words to Keep row on your profile. <b>For Today</b> brings back one of your saved lines at random; the rest are grouped by month, newest first. Tap any line to read it full screen.</figcaption>
+      </figure>
+    </div>
+    <p>You can keep 10 lines for free, and as many as you like with Noren Premium. If Premium ends, everything you kept stays with you.</p>
   </section>
 
 </main>
@@ -816,7 +944,7 @@
     <a href="terms.html">Terms of Service</a>
     <a href="support.html">Support</a>
   </div>
-  <p class="updated">Last updated: 2026-07-27</p>
+  <p class="updated">Last updated: 2026-09-30</p>
   <p style="margin-top:var(--s-sm)">© 2026 Farkas József</p>
 </footer>
 
