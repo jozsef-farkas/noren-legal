@@ -255,7 +255,7 @@
   <p class="doc-label">Legal</p>
   <h1>Privacy Policy</h1>
   <div class="meta">
-    <span>Effective: October 19, 2026</span>
+    <span>Effective: October 28, 2026</span>
     <span>Developer: Farkas József</span>
     <span>Hungary · EU</span>
   </div>
@@ -276,12 +276,14 @@
   <section>
     <h2>3. Data I collect</h2>
 
-    <h3>3.1 Account data (Sign in with Apple)</h3>
-    <p>When you create an account with Sign in with Apple, I receive:</p>
+    <h3>3.1 Account data</h3>
+    <p>You can use NOREN without signing in. When you submit your first puzzle result (or first save a quote, turn on offline mode or subscribe to Premium), the App creates an anonymous account for you. It has a random identifier and contains no name, email address or other contact details. Until you choose a username (possible once you sign in with Apple), you appear on leaderboards as "Guest" followed by a number.</p>
+    <p>If you sign in with Apple, I also receive:</p>
     <ul>
       <li>a unique user identifier issued by Apple;</li>
       <li>an email address, if you choose to share it (Apple may provide a private relay address).</li>
     </ul>
+    <p>When you sign in, your anonymous account is linked to your Apple sign-in, so your results, name and saved quotes are kept. If you sign in with an Apple ID that already has a NOREN account, you switch to that account; if your anonymous account already has results, the App asks you to confirm first, because those results are not carried over to the existing account.</p>
     <p>I never receive your Apple ID password or payment card details.</p>
 
     <h3>3.2 Profile data</h3>
@@ -316,8 +318,9 @@
     <h3>3.6 Push notifications</h3>
     <p>If you allow notifications, I store your device's push token to send the notifications you have opted into (for example, friend activity and streak reminders). A notification about a friend's activity contains that friend's username.</p>
 
-    <h3>3.7 Guest use</h3>
-    <p>You can solve daily puzzles without an account. Guest progress is stored only on your device. Guest solve results are sent to the server without any identifier that could link them to you or your device. If you later sign in, your on-device progress is transferred to your account.</p>
+    <h3>3.7 Using NOREN without signing in</h3>
+    <p>An anonymous account (section 3.1) stores the same gameplay, profile and Words to Keep data as a signed-in account, so your results can appear on leaderboards and are kept if you later sign in. I cannot identify you from an anonymous account.</p>
+    <p>If you use an older version of the App without signing in, your solve results are sent without any identifier that could link them to you or your device and are kept as anonymous statistics.</p>
 
     <h3>3.8 Game Center</h3>
     <p>If you are signed in to Game Center, the App submits your Slitherlink daily solve time and your best streak to Game Center leaderboards. This data is processed by Apple under Apple's terms. The App does not store your Game Center name on my servers.</p>
@@ -361,7 +364,7 @@
     <ul>
       <li><strong>Apple Inc.</strong>: Sign in with Apple, App Store payments, push notification delivery (APNs) and Game Center. <a href="https://www.apple.com/legal/privacy/" target="_blank">Apple Privacy Policy</a></li>
       <li><strong>Supabase Inc.</strong>: database and server hosting in the EU (Frankfurt). <a href="https://supabase.com/privacy" target="_blank">Supabase Privacy Policy</a></li>
-      <li><strong>RevenueCat, Inc.</strong> (United States): subscription management. RevenueCat receives your account identifier and your App Store purchase and subscription information. <a href="https://www.revenuecat.com/privacy" target="_blank">RevenueCat Privacy Policy</a></li>
+      <li><strong>RevenueCat, Inc.</strong> (United States): subscription management. RevenueCat receives your account identifier (for an anonymous account, its random identifier) and your App Store purchase and subscription information. <a href="https://www.revenuecat.com/privacy" target="_blank">RevenueCat Privacy Policy</a></li>
     </ul>
   </section>
 
@@ -372,16 +375,22 @@
 
   <section>
     <h2>9. Retention and deletion</h2>
-    <p>I keep your data for as long as your account exists.</p>
-    <p>You can delete your account at any time in the App under Profile &gt; Settings &gt; Account &gt; Delete account. When you do:</p>
+    <p>Signed-in accounts: I keep your data for as long as your account exists.</p>
+    <p>Anonymous accounts are deleted automatically:</p>
     <ul>
-      <li>your account, profile, solve history, weekly challenge results, rankings, streaks, personal bests, puzzle ratings, saved quotes, friend connections, invites, notifications and push tokens are deleted immediately from the production database;</li>
-      <li>your Sign in with Apple authorization is revoked;</li>
-      <li>your customer record at RevenueCat is deleted;</li>
-      <li>I do not keep separate backup copies of the production database.</li>
+      <li>30 days after creation, if no puzzle result or saved quote was ever recorded;</li>
+      <li>365 days after the last activity (sign-in or submitted puzzle result), if results or saved quotes were recorded.</li>
     </ul>
-    <p>Deleting your account does not cancel an active subscription. Subscriptions are managed by Apple; cancel yours in your Apple ID settings.</p>
-    <p>Guest solve results (section 3.7) cannot be linked to you and are kept as anonymous statistics.</p>
+    <p>An account with an active Premium subscription is never deleted automatically.</p>
+    <p>You can delete your data at any time in the App under Profile &gt; Settings &gt; Account:</p>
+    <ul>
+      <li>"Delete account" (signed-in accounts) or "Delete my data" (anonymous accounts) immediately deletes your account, profile, solve history, weekly challenge results, rankings, streaks, personal bests, puzzle ratings, saved quotes, friend connections, invites, notifications and push tokens from the production database, and clears your account's data stored on your device;</li>
+      <li>for signed-in accounts, your Sign in with Apple authorization is also revoked;</li>
+      <li>your customer record at RevenueCat is deleted;</li>
+      <li>Backups of the database are kept for no longer than 30 days and are then deleted. Data you delete may remain in a backup until that backup is deleted.</li>
+    </ul>
+    <p>Deleting your account or data does not cancel an active subscription. Subscriptions are managed by Apple; cancel yours in your Apple ID settings.</p>
+    <p>Solve results sent without any identifier (section 3.7) cannot be linked to you and are kept as anonymous statistics.</p>
   </section>
 
   <section>
